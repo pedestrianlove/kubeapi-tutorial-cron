@@ -1,0 +1,38 @@
+name: Testing
+on:
+  - pull_request
+  - push
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Test
+        run: make test
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup kind cluster
+      - uses: engineerd/setup-kind@v0.5.0
+        with:
+          wait: 300s
+          version: v0.23.0
+          image: kindest/node:v1.30.0
+
+      # Setup Go
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      #  Run tests
+      - name: E2E Tests
+        run: make test-e2e
