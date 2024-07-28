@@ -43,7 +43,9 @@ jobs:
 
       #  Run tests
       - name: E2E Tests
-        run: make test-e2e
+        run: |
+          export ENABLE_WEBHOOKS=false
+          make test-e2e
 
       # Dump logs if tests failed
       - name: Export Kind Logs (on failure)
