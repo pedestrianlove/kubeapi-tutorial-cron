@@ -34,6 +34,7 @@ jobs:
         with:
           wait: 300s
           version: v0.23.0
+          config: ./test/kind.yaml
           image: kindest/node:v1.30.0
 
       # Setup Go
